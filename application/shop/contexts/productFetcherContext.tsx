@@ -12,7 +12,7 @@ export enum ProductFetcherState {
 const ProductFetcherContext = createContext({
   product: null as ProductModel | null,
   state: ProductFetcherState.INITIAL,
-  getProductById: (id: String) => {},
+  getProductById: (id: string) => {},
 });
 
 export const ProductFetcherProvider: React.FC<{
@@ -21,7 +21,7 @@ export const ProductFetcherProvider: React.FC<{
   const [product, setProduct] = useState<ProductModel | null>(null);
   const [state, setState] = useState(ProductFetcherState.INITIAL);
 
-  const getProductById = async (id: String) => {
+  const getProductById = async (id: string) => {
     console.log("getProductById");
     setState(ProductFetcherState.LOADING);
     try {

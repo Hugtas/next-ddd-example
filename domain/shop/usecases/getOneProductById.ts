@@ -3,7 +3,7 @@ import { ProductRepository } from "../repositories/productRepository";
 import { Product } from "../entities/product";
 
 interface GetOneProductByIdParams {
-  id: String;
+  id: string;
 }
 
 export class GetOneProductById {
@@ -11,15 +11,21 @@ export class GetOneProductById {
   productRepository: ProductRepository = new ProductRepositoryImpl();
   constructor() {}
 
-  async execute({ id }: GetOneProductByIdParams): Promise<Product> {
+  async execute(params: GetOneProductByIdParams): Promise<Product> {
     // Params validation (Input)
-    if (!id) {
+    if (!params.id) {
       throw new Error("Product id is required");
     }
     // Business logic
-    const product = await this.productRepository.getOneProductById(id);
+    const product = await this.productRepository.getOneProductById(params.id);
     if (!product) {
       throw new Error("Product not found");
+    }
+    if (!product.hasStock()) {
+      throw new Error("Product out of stock");
+    }
+    if (!product.isValid()) {
+      throw new Error("Product is not valid");
     }
 
     // Return value (Output)
